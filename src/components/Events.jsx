@@ -282,13 +282,6 @@ const Events = () => {
                   onError={handleImageError}
                 />
                 <div className="modal-poster-overlay">
-                  <div className="poster-content">
-                    <h3 className="poster-title">{selectedEvent.title}</h3>
-                    <div className="poster-highlights">
-                      <span className="highlight prize">{selectedEvent.prizePool} Prize Pool</span>
-                      <span className="highlight participants">{selectedEvent.participants} Participants</span>
-                    </div>
-                  </div>
                 </div>
               </div>
               

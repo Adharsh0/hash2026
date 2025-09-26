@@ -14,64 +14,65 @@ const Gallery = () => {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const galleryRef = useRef(null);
+  const modalRef = useRef(null);
 
   // All images from different years combined
   const allImages = [
     {
       id: 1,
-      src: '/splash.png',
+      src: '/inaugral.jpeg',
       title: 'Opening Ceremony 2025',
       year: '2025',
-      description: 'Grand opening with 500+ participants'
+      description: 'Grand opening ceremony of Hash-2025 with dignitaries and participants'
     },
     {
       id: 2,
-      src: '/blue.jpg',
-      title: 'Hackathon 2024',
-      year: '2024',
-      description: '24-hour coding marathon'
+      src: '/ipl.jpeg',
+      title: 'IPL Auction 2025',
+      year: '2025',
+      description: 'Exciting IPL player auction event with enthusiastic bidding'
     },
     {
       id: 3,
-      src: '/blue.jpg',
-      title: 'Workshop Sessions 2023',
-      year: '2023',
-      description: 'Hands-on learning experiences'
+      src: '/futsal.jpeg',
+      title: 'Futsal 2025',
+      year: '2025',
+      description: 'Fast-paced futsal tournament with competitive matches'
     },
     {
       id: 4,
-      src: '/blue.jpg',
-      title: 'Coding Competition 2025',
+      src: '/ctf.jpeg',
+      title: 'Capture The Flag 2025',
       year: '2025',
-      description: 'Intense programming challenges'
+      description: 'Cybersecurity competition testing hacking and defense skills'
     },
     {
       id: 5,
-      src: '/blue.jpg',
-      title: 'Tech Talks 2024',
-      year: '2024',
-      description: 'Industry experts sharing knowledge'
+      src: '/eco.jpeg',
+      title: 'Eco-Pitch 2025',
+      year: '2025',
+      description: 'Environmental innovation pitch competition for sustainable ideas'
     },
     {
       id: 6,
-      src: '/blue.jpg',
-      title: 'Robotics Competition 2023',
-      year: '2023',
-      description: 'Autonomous robot challenges'
+      src: '/ctf2.jpeg',
+      title: 'Capture The Flag 2025',
+      year: '2025',
+      description: 'cybersecurity challenge with intense competition'
     },
     {
       id: 7,
-      src: '/blue.jpg',
-      title: 'Award Ceremony 2025',
+      src: '/ctf3.jpeg',
+      title: 'Capture The Flag Finals 2025',
       year: '2025',
-      description: 'Winners receiving their prizes'
+      description: 'Championship round of the cybersecurity competition with winners'
     },
     {
       id: 8,
-      src: '/blue.jpg',
-      title: 'Innovation Showcase 2024',
-      year: '2024',
-      description: 'Students presenting projects'
+      src: '/ipl2.jpeg',
+      title: 'IPL Auction 2025',
+      year: '2025',
+      description: 'Team formations and strategic bidding during IPL auction'
     }
   ];
 
@@ -95,6 +96,26 @@ const Gallery = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Close modal with Escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeImageModal();
+      }
+    };
+
+    if (selectedImage) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [selectedImage]);
+
   const handleCircleClick = () => {
     if (isAnimating) return;
     
@@ -109,12 +130,17 @@ const Gallery = () => {
   const openImageModal = (image) => {
     if (!isExpanded) return;
     setSelectedImage(image);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeImageModal = () => {
     setSelectedImage(null);
-    document.body.style.overflow = 'unset';
+  };
+
+  const handleModalClick = (e) => {
+    // Close modal if clicking outside the modal content
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      closeImageModal();
+    }
   };
 
   const getImagePosition = (index, total) => {
@@ -221,16 +247,24 @@ const Gallery = () => {
             </div>
           </div>
         </div>
-
-        {/* Instructions */}
-       
       </div>
 
       {/* Image Modal */}
       {selectedImage && (
-        <div className="image-modal-overlay" onClick={closeImageModal}>
-          <div className="image-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeImageModal}>
+        <div 
+          className="image-modal-overlay" 
+          onClick={handleModalClick}
+        >
+          <div 
+            className="image-modal" 
+            ref={modalRef}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="modal-close" 
+              onClick={closeImageModal}
+              aria-label="Close image modal"
+            >
               <FaTimes />
             </button>
             
