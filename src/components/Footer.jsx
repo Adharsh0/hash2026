@@ -36,7 +36,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="footer-section">
+    <footer className="footer-section" id="footer">
       {/* Background Image with Dark Overlay */}
       <div className="footer-background">
         <div className="bg-image"></div>

@@ -449,6 +449,12 @@
     padding: 3rem 0 2rem;
   }
   
+  /* Hide Quick Links and Events sections on mobile */
+  .footer-links:nth-child(2), /* Quick Links */
+  .footer-links:nth-child(3) { /* Events */
+    display: none;
+  }
+  
   .social-links {
     justify-content: center;
   }

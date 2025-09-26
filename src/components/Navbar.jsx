@@ -26,7 +26,7 @@ const Navbar = () => {
           <a href="#about" className="nav-link">About</a>
           <a href="#events" className="nav-link">Events</a>
           <a href="#sponsors" className="nav-link">Sponsors</a>
-          <a href="#contact" className="nav-link">Contact</a>
+          <a href="#footer" className="nav-link">Contact</a>
         </div>
       </div>
     </nav>
