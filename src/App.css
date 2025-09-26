@@ -1,0 +1,289 @@
+/* Global Black Theme Styles with Enhanced Effects */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+
+html {
+  background: #000000;
+}
+
+#root {
+  background: #000000;
+  min-height: 100vh;
+  position: relative;
+}
+
+.App {
+  background: #000000;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Global Particle Background */
+.global-particle-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.global-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(120, 119, 198, 0.6);
+  border-radius: 50%;
+  animation: globalFloat linear infinite;
+}
+
+.global-particle:nth-child(even) {
+  background: rgba(102, 126, 234, 0.4);
+  width: 1px;
+  height: 1px;
+}
+
+.global-particle:nth-child(3n) {
+  background: rgba(118, 75, 162, 0.5);
+  animation-direction: reverse;
+}
+
+@keyframes globalFloat {
+  0% {
+    transform: translateY(100vh) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Global Interactive Mouse Glow */
+.global-mouse-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.3;
+  transition: background 0.1s ease;
+}
+
+/* Enhanced cursor effect */
+body {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: rgba(120, 119, 198, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+}
+
+.cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition: all 0.2s ease;
+}
+
+/* Scrollbar Styling for Black Theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* Firefox Scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #333333 #000000;
+}
+
+/* Selection Color */
+::selection {
+  background: rgba(120, 119, 198, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: rgba(120, 119, 198, 0.3);
+  color: #ffffff;
+}
+
+/* Ensure all sections maintain black background */
+section {
+  background: #000000;
+  position: relative;
+  z-index: 2;
+}
+
+/* Black theme for common elements */
+.container {
+  background: #000000;
+  position: relative;
+  z-index: 2;
+}
+
+/* Form elements black theme */
+input, textarea, select {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(120, 119, 198, 0.2);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #888888;
+}
+
+/* Card/Modal black theme */
+.card, .modal {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* Button themes for consistency */
+button {
+  font-family: inherit;
+  position: relative;
+  z-index: 2;
+}
+
+/* Link styling */
+a {
+  color: #667eea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+a:hover {
+  color: #764ba2;
+}
+
+/* Loading animations with black theme */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    background: #000000; 
+  }
+  to { 
+    opacity: 1; 
+    background: #000000; 
+  }
+}
+
+/* Ensure modal backgrounds are black */
+.modal-backdrop, .overlay {
+  background: rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 9990;
+}
+
+/* Black theme for any popups or dropdowns */
+.dropdown, .menu, .popup {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 2;
+}
+
+/* Ensure footer and other sections are black */
+footer {
+  background: #000000;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+/* Media queries for consistent black theme */
+@media (max-width: 768px) {
+  body {
+    background: #000000;
+    cursor: default;
+  }
+  
+  .mobile-menu {
+    background: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Disable custom cursor on mobile */
+  .custom-cursor, .cursor-follower {
+    display: none;
+  }
+}
+
+/* Print styles to maintain theme */
+@media print {
+  body {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+  
+  .global-particle-background,
+  .global-mouse-glow,
+  .custom-cursor,
+  .cursor-follower {
+    display: none;
+  }
+}
