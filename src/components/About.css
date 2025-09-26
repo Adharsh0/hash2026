@@ -385,7 +385,7 @@
   bottom: 0;
   background: 
     radial-gradient(circle at center, rgba(100, 181, 246, 0.05), transparent 70%),
-    url('about.png');
+    url('/about.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

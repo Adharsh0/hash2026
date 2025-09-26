@@ -59,7 +59,7 @@ const Footer = () => {
           <div className="footer-brand">
             <div className="footer-logo">
               <img 
-                src="/navbarlogo.png" 
+                src="navbarlogo.png" 
                 alt="HASH Logo" 
                 className="logo-image"
                 onError={(e) => {
