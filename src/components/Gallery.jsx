@@ -185,10 +185,10 @@ const Gallery = () => {
             <FaCamera />
             HASH Gallery
           </div>
-          <h2 className="section-title2">
+          <h2 className="section-title3">
             Relive the <span className="gradient-text">Epic Moments</span>
           </h2>
-          <p className="section-subtitle2">
+          <p className="section-subtitle3">
             Journey through the years of innovation and excellence
           </p>
         </div>

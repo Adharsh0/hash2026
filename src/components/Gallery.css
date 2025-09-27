@@ -111,7 +111,7 @@
   animation: pulse 2s infinite;
 }
 
-.section-title2 {
+.section-title3 {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 800;
   color: #ffffff;
@@ -128,7 +128,7 @@
   background-clip: text;
 }
 
-.section-subtitle2 {
+.section-subtitle3 {
   font-size: 1.3rem;
   color: #bbdefb;
   font-family: 'Exo 2', sans-serif;
