@@ -16,18 +16,21 @@ import {
   FaFutbol,
   FaPalette,
   FaPlus,
-  FaMinus
+  FaMinus,
+  FaSearch
 } from 'react-icons/fa';
 import './Events.css';
 
 const Events = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [expandedNodes, setExpandedNodes] = useState(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const treeRef = useRef(null);
 
   const events = [
+    // ... (your existing events array remains the same)
     // Technical Events
     {
       id: 1,
@@ -272,6 +275,7 @@ const Events = () => {
   ];
 
   const treeStructure = {
+    // ... (your existing treeStructure remains the same)
     root: {
       id: 'root',
       title: 'HASH Events',
@@ -368,6 +372,92 @@ const Events = () => {
       level: 2,
       children: events.filter(e => e.subCategory === 'creative').map(e => e.id)
     }
+  };
+
+  // Find event by search query
+  const findEventByQuery = (query) => {
+    if (!query.trim()) return null;
+    
+    const lowerQuery = query.toLowerCase().trim();
+    return events.find(event => 
+      event.title.toLowerCase().includes(lowerQuery) ||
+      event.description.toLowerCase().includes(lowerQuery) ||
+      event.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
+    );
+  };
+
+  // Find path to event in tree structure
+  const findPathToEvent = (eventId, currentNode = 'root', path = []) => {
+    const node = treeStructure[currentNode];
+    if (!node) return null;
+
+    const newPath = [...path, currentNode];
+
+    // Check if current node contains the event
+    if (node.children && node.children.includes(eventId)) {
+      return newPath;
+    }
+
+    // Recursively search in children
+    for (const childId of node.children || []) {
+      if (typeof childId === 'string') { // Only traverse non-event nodes
+        const result = findPathToEvent(eventId, childId, newPath);
+        if (result) return result;
+      }
+    }
+
+    return null;
+  };
+
+  // Expand nodes to reveal searched event
+  const expandToEvent = (event) => {
+    if (!event) return;
+
+    const path = findPathToEvent(event.id);
+    if (path) {
+      const newExpanded = new Set(expandedNodes);
+      
+      // Expand all nodes in the path
+      path.forEach(nodeId => {
+        newExpanded.add(nodeId);
+      });
+
+      setExpandedNodes(newExpanded);
+
+      // Scroll to the event after a short delay
+      setTimeout(() => {
+        const element = document.getElementById(`event-${event.id}`);
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+          
+          // Add highlight effect
+          element.classList.add('search-highlight');
+          setTimeout(() => {
+            element.classList.remove('search-highlight');
+          }, 2000);
+        }
+      }, 500);
+    }
+  };
+
+  // Handle search
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    
+    if (query.trim()) {
+      const foundEvent = findEventByQuery(query);
+      if (foundEvent) {
+        expandToEvent(foundEvent);
+      }
+    }
+  };
+
+  // Clear search
+  const clearSearch = () => {
+    setSearchQuery('');
   };
 
   // Auto-scroll when expanding nodes
@@ -538,10 +628,16 @@ const Events = () => {
   };
 
   const renderEventCard = (event, depth) => {
+    const isSearchMatch = searchQuery && 
+      (event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       event.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
+
     return (
       <div 
         key={`event-${event.id}`} 
-        className={`event-branch level-${depth}`}
+        id={`event-${event.id}`}
+        className={`event-branch level-${depth} ${isSearchMatch ? 'search-match' : ''}`}
         onClick={() => openEventDetails(event)}
       >
         <div className="branch-connection">
@@ -564,8 +660,6 @@ const Events = () => {
               </div>
             </div>
           </div>
-          
-          {/* Removed title and date from front view */}
         </div>
       </div>
     );
@@ -579,14 +673,47 @@ const Events = () => {
         <div className="events-header scroll-animate" ref={headerRef}>
           <div className="section-badge">
             <FaTrophy className="badge-icon" />
-            <span className="badge-text">HASH Events Tree</span>
+            <span className="badge-text">HASH Events</span>
           </div>
           <h2 className="section-title3">
             Explore <span className="gradient-text">Interactive Events</span>
           </h2>
           <p className="section-subtitle3">
-            Navigate through our events like a tree structure - click nodes to expand and discover
+            click nodes to expand and discover
           </p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="search-container">
+          <div className="search-bar">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search events by name, description, or tags..."
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="search-input"
+            />
+            {searchQuery && (
+              <button 
+                className="search-clear"
+                onClick={clearSearch}
+                aria-label="Clear search"
+              >
+                <FaTimes />
+              </button>
+            )}
+          </div>
+          {searchQuery && (
+            <div className="search-results">
+              <span className="search-info">
+                {findEventByQuery(searchQuery) 
+                  ? 'Found matching event! Expanding tree...' 
+                  : 'No events found matching your search.'
+                }
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Interactive Tree */}

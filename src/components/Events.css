@@ -157,7 +157,6 @@
 /* Main Section */
 .events-section {
   padding: 8rem 2rem;
-  background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -1991,5 +1990,156 @@
     font-size: 0.8rem;
   }
 }
+/* Search Bar Styles */
+.search-container {
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  padding: 0 2rem;
+}
 
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(100, 181, 246, 0.3);
+  border-radius: 50px;
+  padding: 12px 20px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-bar:focus-within {
+  border-color: #64b5f6;
+  box-shadow: 0 0 30px rgba(100, 181, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.search-icon {
+  color: #64b5f6;
+  font-size: 1.1rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: 'Exo 2', sans-serif;
+  outline: none;
+  padding: 0;
+}
+
+.search-input::placeholder {
+  color: #bbdefb;
+  opacity: 0.7;
+}
+
+.search-clear {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: #bbdefb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.search-clear:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.search-results {
+  text-align: center;
+  margin-top: 1rem;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.search-info {
+  color: #64b5f6;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  background: rgba(100, 181, 246, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(100, 181, 246, 0.3);
+}
+
+/* Search Highlight Effects */
+.search-match {
+  animation: searchPulse 2s ease-in-out;
+}
+
+@keyframes searchPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25%, 75% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.search-highlight {
+  animation: highlightGlow 2s ease-in-out;
+}
+
+@keyframes highlightGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(100, 181, 246, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(100, 181, 246, 0.6);
+  }
+}
+
+/* Responsive Search Bar */
+@media (max-width: 768px) {
+  .search-container {
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .search-bar {
+    padding: 10px 16px;
+  }
+  
+  .search-input {
+    font-size: 0.9rem;
+  }
+  
+  .search-input::placeholder {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container {
+    padding: 0 0.5rem;
+  }
+  
+  .search-bar {
+    padding: 8px 14px;
+  }
+  
+  .search-input {
+    font-size: 0.85rem;
+  }
+  
+  .search-input::placeholder {
+    font-size: 0.85rem;
+  }
+}
 /* Rest of your existing CSS remains the same */

@@ -156,7 +156,6 @@
 /* Main Section */
 .about-section {
   padding: 8rem 2rem;
-  background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
   position: relative;
   overflow: hidden;
   min-height: 100vh;
