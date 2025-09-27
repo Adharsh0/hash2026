@@ -119,7 +119,7 @@ const About = () => {
           <div className="cta-content">
             <h3 className="cta-title">Ready to be part of HASH '26?</h3>
             <p className="cta-description">
-              Join hundreds of participants and showcase your technical skills.
+              Join our Events and showcase your technical skills.
             </p>
            
           </div>
