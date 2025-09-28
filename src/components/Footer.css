@@ -4,6 +4,7 @@
 .footer-section {
   border-top: 1px solid rgba(100, 181, 246, 0.1);
   position: relative;
+  background-color: transparent;
   overflow: hidden;
 }
 

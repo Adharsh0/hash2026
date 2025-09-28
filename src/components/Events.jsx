@@ -15,22 +15,42 @@ import {
   FaCamera,
   FaFutbol,
   FaPalette,
-  FaPlus,
-  FaMinus,
-  FaSearch
+  FaSearch,
+  FaChevronLeft,
+  FaChevronRight
 } from 'react-icons/fa';
 import './Events.css';
 
 const Events = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [expandedNodes, setExpandedNodes] = useState(new Set());
   const [searchQuery, setSearchQuery] = useState('');
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const treeRef = useRef(null);
+  const [currentSlides, setCurrentSlides] = useState({
+    programming: 0,
+    cybersecurity: 0,
+    design: 0,
+    workshop: 0,
+    puzzle: 0,
+    gaming: 0,
+    innovation: 0,
+    sports: 0,
+    creative: 0
+  });
+
+  // Add keyboard event listener for ESC key
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.keyCode === 27 && selectedEvent) {
+        closeEventDetails();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [selectedEvent]);
 
   const events = [
-    // ... (your existing events array remains the same)
     // Technical Events
     {
       id: 1,
@@ -130,7 +150,6 @@ const Events = () => {
       registrationLink: "#register-cyber-workshop",
       tags: ["Ethical Hacking", "Security", "Digital Safety"]
     },
-
     // Non-Technical Events
     {
       id: 5,
@@ -274,103 +293,19 @@ const Events = () => {
     }
   ];
 
-  const treeStructure = {
-    // ... (your existing treeStructure remains the same)
-    root: {
-      id: 'root',
-      title: 'HASH Events',
-      icon: FaTrophy,
-      color: '#64b5f6',
-      level: 0,
-      children: ['technical', 'non-technical']
-    },
+  const subCategories = {
     technical: {
-      id: 'technical',
-      title: 'Technical Events',
-      icon: FaCode,
-      color: '#4fc3f7',
-      level: 1,
-      children: ['programming', 'cybersecurity', 'design', 'workshop', 'puzzle']
+      programming: { name: "Programming", icon: FaCode, color: "#42a5f5" },
+      cybersecurity: { name: "Cybersecurity", icon: FaShieldAlt, color: "#ef5350" },
+      design: { name: "Design", icon: FaPalette, color: "#ab47bc" },
+      workshop: { name: "Workshops", icon: FaGraduationCap, color: "#f06292" },
+      puzzle: { name: "Puzzle & Mystery", icon: FaBrain, color: "#26c6da" }
     },
     'non-technical': {
-      id: 'non-technical',
-      title: 'Non-Technical Events',
-      icon: FaGamepad,
-      color: '#81c784',
-      level: 1,
-      children: ['gaming', 'innovation', 'sports', 'creative']
-    },
-    programming: {
-      id: 'programming',
-      title: 'Programming',
-      icon: FaCode,
-      color: '#42a5f5',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'programming').map(e => e.id)
-    },
-    cybersecurity: {
-      id: 'cybersecurity',
-      title: 'Cybersecurity',
-      icon: FaShieldAlt,
-      color: '#ef5350',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'cybersecurity').map(e => e.id)
-    },
-    design: {
-      id: 'design',
-      title: 'Design',
-      icon: FaPalette,
-      color: '#ab47bc',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'design').map(e => e.id)
-    },
-    workshop: {
-      id: 'workshop',
-      title: 'Workshops',
-      icon: FaGraduationCap,
-      color: '#f06292',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'workshop').map(e => e.id)
-    },
-    puzzle: {
-      id: 'puzzle',
-      title: 'Puzzle & Mystery',
-      icon: FaBrain,
-      color: '#26c6da',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'puzzle').map(e => e.id)
-    },
-    gaming: {
-      id: 'gaming',
-      title: 'Gaming',
-      icon: FaGamepad,
-      color: '#66bb6a',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'gaming').map(e => e.id)
-    },
-    innovation: {
-      id: 'innovation',
-      title: 'Innovation',
-      icon: FaLightbulb,
-      color: '#ffb74d',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'innovation').map(e => e.id)
-    },
-    sports: {
-      id: 'sports',
-      title: 'Sports & Fun',
-      icon: FaFutbol,
-      color: '#a1c181',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'sports').map(e => e.id)
-    },
-    creative: {
-      id: 'creative',
-      title: 'Creative',
-      icon: FaCamera,
-      color: '#ff8a65',
-      level: 2,
-      children: events.filter(e => e.subCategory === 'creative').map(e => e.id)
+      gaming: { name: "Gaming", icon: FaGamepad, color: "#66bb6a" },
+      innovation: { name: "Innovation", icon: FaLightbulb, color: "#ffb74d" },
+      sports: { name: "Sports & Fun", icon: FaFutbol, color: "#a1c181" },
+      creative: { name: "Creative", icon: FaCamera, color: "#ff8a65" }
     }
   };
 
@@ -386,63 +321,6 @@ const Events = () => {
     );
   };
 
-  // Find path to event in tree structure
-  const findPathToEvent = (eventId, currentNode = 'root', path = []) => {
-    const node = treeStructure[currentNode];
-    if (!node) return null;
-
-    const newPath = [...path, currentNode];
-
-    // Check if current node contains the event
-    if (node.children && node.children.includes(eventId)) {
-      return newPath;
-    }
-
-    // Recursively search in children
-    for (const childId of node.children || []) {
-      if (typeof childId === 'string') { // Only traverse non-event nodes
-        const result = findPathToEvent(eventId, childId, newPath);
-        if (result) return result;
-      }
-    }
-
-    return null;
-  };
-
-  // Expand nodes to reveal searched event
-  const expandToEvent = (event) => {
-    if (!event) return;
-
-    const path = findPathToEvent(event.id);
-    if (path) {
-      const newExpanded = new Set(expandedNodes);
-      
-      // Expand all nodes in the path
-      path.forEach(nodeId => {
-        newExpanded.add(nodeId);
-      });
-
-      setExpandedNodes(newExpanded);
-
-      // Scroll to the event after a short delay
-      setTimeout(() => {
-        const element = document.getElementById(`event-${event.id}`);
-        if (element) {
-          element.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
-          });
-          
-          // Add highlight effect
-          element.classList.add('search-highlight');
-          setTimeout(() => {
-            element.classList.remove('search-highlight');
-          }, 2000);
-        }
-      }, 500);
-    }
-  };
-
   // Handle search
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -450,7 +328,20 @@ const Events = () => {
     if (query.trim()) {
       const foundEvent = findEventByQuery(query);
       if (foundEvent) {
-        expandToEvent(foundEvent);
+        setTimeout(() => {
+          const element = document.getElementById(`event-${foundEvent.id}`);
+          if (element) {
+            element.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
+            
+            element.classList.add('search-highlight');
+            setTimeout(() => {
+              element.classList.remove('search-highlight');
+            }, 2000);
+          }
+        }, 300);
       }
     }
   };
@@ -460,174 +351,72 @@ const Events = () => {
     setSearchQuery('');
   };
 
-  // Auto-scroll when expanding nodes
-  const scrollToView = (nodeId) => {
-    setTimeout(() => {
-      const element = document.getElementById(`node-${nodeId}`);
-      if (element && sectionRef.current) {
-        const rect = element.getBoundingClientRect();
-        const offset = window.innerHeight * 0.3;
-        window.scrollTo({
-          top: window.scrollY + rect.top - offset,
-          behavior: 'smooth'
-        });
-      }
-    }, 300);
+  // Filter events
+  const getFilteredEvents = () => {
+    if (!searchQuery.trim()) return events;
+    
+    const lowerQuery = searchQuery.toLowerCase();
+    return events.filter(event => 
+      event.title.toLowerCase().includes(lowerQuery) ||
+      event.description.toLowerCase().includes(lowerQuery) ||
+      event.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
+    );
   };
 
-  const toggleNode = (nodeId) => {
-    const newExpanded = new Set(expandedNodes);
-    if (newExpanded.has(nodeId)) {
-      newExpanded.delete(nodeId);
-      // Collapse all children
-      const collapseChildren = (id) => {
-        const node = treeStructure[id];
-        if (node && node.children) {
-          node.children.forEach(childId => {
-            newExpanded.delete(childId);
-            collapseChildren(childId);
-          });
-        }
-      };
-      collapseChildren(nodeId);
-    } else {
-      newExpanded.add(nodeId);
-      scrollToView(nodeId);
-    }
-    setExpandedNodes(newExpanded);
-  };
-
+  // Open event details
   const openEventDetails = (event) => {
     setSelectedEvent(event);
     document.body.style.overflow = 'hidden';
   };
 
+  // Close event details
   const closeEventDetails = () => {
     setSelectedEvent(null);
     document.body.style.overflow = 'unset';
+    
+    // Remove any active search highlights
+    const highlightedElements = document.querySelectorAll('.search-highlight');
+    highlightedElements.forEach(el => {
+      el.classList.remove('search-highlight');
+    });
   };
 
   const handleImageError = (e) => {
     e.target.src = 'splash.png';
   };
 
-  // Scroll animation for header
-  useEffect(() => {
-    const headerElement = headerRef.current;
-    if (!headerElement) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            headerElement.classList.add('animated');
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(headerElement);
-
-    return () => {
-      observer.unobserve(headerElement);
-    };
-  }, []);
-
-  // Scroll animation effect for tree nodes
-  useEffect(() => {
-    const handleScroll = () => {
-      const elements = document.querySelectorAll('.tree-node, .event-branch');
-      
-      elements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < window.innerHeight - elementVisible) {
-          element.classList.add('animated');
-        }
-      });
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Initial expand root node
-  useEffect(() => {
-    setExpandedNodes(new Set(['root']));
-  }, []);
-
-  const renderNode = (nodeId, depth = 0) => {
-    const node = treeStructure[nodeId];
-    if (!node) return null;
-
-    const isExpanded = expandedNodes.has(nodeId);
-    const hasChildren = node.children && node.children.length > 0;
-    const IconComponent = node.icon;
-
-    return (
-      <div key={nodeId} className={`tree-node level-${depth}`} id={`node-${nodeId}`}>
-        <div className="node-container">
-          {/* Connection Lines */}
-          {depth > 0 && (
-            <>
-              <div className="connection-line vertical" />
-              <div className="connection-line horizontal" />
-            </>
-          )}
-          
-          {/* Node Circle */}
-          <div 
-            className={`node-circle ${isExpanded ? 'expanded' : ''}`}
-            style={{ 
-              '--node-color': node.color,
-              '--node-size': `${Math.max(80 - depth * 10, 50)}px`
-            }}
-            onClick={() => hasChildren && toggleNode(nodeId)}
-          >
-            <IconComponent className="node-icon" />
-            {hasChildren && (
-              <div className="expand-indicator">
-                {isExpanded ? <FaMinus /> : <FaPlus />}
-              </div>
-            )}
-          </div>
-          
-          {/* Node Label */}
-          <div className="node-label" style={{ color: node.color }}>
-            {node.title}
-            {hasChildren && (
-              <span className="node-count">
-                ({node.children.length})
-              </span>
-            )}
-          </div>
-        </div>
-        
-        {/* Children */}
-        {isExpanded && hasChildren && (
-          <div className="node-children">
-            {node.children.map(childId => {
-              // If child is an event ID (number), render event card
-              if (typeof childId === 'number') {
-                const event = events.find(e => e.id === childId);
-                return event ? renderEventCard(event, depth + 1) : null;
-              }
-              // Otherwise, render as node
-              return renderNode(childId, depth + 1);
-            })}
-          </div>
-        )}
-      </div>
-    );
+  // Slider functions
+  const getEventsPerSlide = () => {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 768) return 2;
+    if (window.innerWidth <= 1024) return 3;
+    return 4;
   };
 
-  const renderEventCard = (event, depth) => {
+  const nextSlide = (subCategory) => {
+    const categoryEvents = getFilteredEvents().filter(e => e.subCategory === subCategory);
+    const eventsPerSlide = getEventsPerSlide();
+    const maxSlide = Math.max(0, Math.ceil(categoryEvents.length / eventsPerSlide) - 1);
+    
+    setCurrentSlides(prev => ({
+      ...prev,
+      [subCategory]: prev[subCategory] >= maxSlide ? 0 : prev[subCategory] + 1
+    }));
+  };
+
+  const prevSlide = (subCategory) => {
+    const categoryEvents = getFilteredEvents().filter(e => e.subCategory === subCategory);
+    const eventsPerSlide = getEventsPerSlide();
+    const maxSlide = Math.max(0, Math.ceil(categoryEvents.length / eventsPerSlide) - 1);
+    
+    setCurrentSlides(prev => ({
+      ...prev,
+      [subCategory]: prev[subCategory] <= 0 ? maxSlide : prev[subCategory] - 1
+    }));
+  };
+
+  // Render event card
+  const renderEventCard = (event) => {
     const isSearchMatch = searchQuery && 
       (event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
        event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -635,51 +424,172 @@ const Events = () => {
 
     return (
       <div 
-        key={`event-${event.id}`} 
+        key={event.id}
         id={`event-${event.id}`}
-        className={`event-branch level-${depth} ${isSearchMatch ? 'search-match' : ''}`}
+        className={`event-card ${isSearchMatch ? 'search-match' : ''}`}
         onClick={() => openEventDetails(event)}
       >
-        <div className="branch-connection">
-          <div className="connection-line vertical-short" />
-          <div className="connection-line horizontal-short" />
+        <div className="event-poster">
+          <img 
+            src={event.poster} 
+            alt={event.title}
+            onError={handleImageError}
+            loading="lazy"
+          />
         </div>
         
-        <div className="event-card-mini">
-          <div className="event-poster-mini">
-            <img 
-              src={event.poster} 
-              alt={event.title}
-              onError={handleImageError}
-              loading="lazy"
-            />
-            <div className="event-overlay-mini">
-              <div className="event-info-mini">
-                <FaTrophy className="prize-icon" />
-                <span>{event.prizePool}</span>
-              </div>
+        <div className="event-overlay">
+          
+          <div className="event-quick-info">
+            <div className="quick-info-item">
+              <FaTrophy />
+              <span>{event.prizePool}</span>
             </div>
+           
+          </div>
+          
+          <div className="event-title">
+            <h3 className="event-name">{event.title}</h3>
+            
+          </div>
+          
+          <div className="event-hover-content">
+            <p className="hover-title">Click to view details</p>
+            <div className="hover-arrow">↗</div>
           </div>
         </div>
       </div>
     );
   };
 
+  // Render subcategory section
+  const renderSubcategorySection = (category, subCat, subCatKey) => {
+    const categoryEvents = getFilteredEvents().filter(e => e.subCategory === subCatKey);
+    
+    if (categoryEvents.length === 0) return null;
+
+    const eventsPerSlide = getEventsPerSlide();
+    const totalSlides = Math.ceil(categoryEvents.length / eventsPerSlide);
+    const currentSlide = currentSlides[subCatKey] || 0;
+    const startIndex = currentSlide * eventsPerSlide;
+    const visibleEvents = categoryEvents.slice(startIndex, startIndex + eventsPerSlide);
+    const IconComponent = subCat.icon;
+
+    return (
+      <div key={subCatKey} className="subcategory-section">
+        <div className="subcategory-header">
+          <div className="subcategory-icon" style={{ color: subCat.color }}>
+            <IconComponent />
+          </div>
+          <div className="subcategory-info">
+            <h3 className="subcategory-title">{subCat.name}</h3>
+            <span className="subcategory-count">{categoryEvents.length} Events</span>
+          </div>
+        </div>
+        
+        <div className="events-slider-container">
+          {totalSlides > 1 && (
+            <>
+              <button 
+                className="slider-nav prev" 
+                onClick={() => prevSlide(subCatKey)}
+                aria-label="Previous slide"
+              >
+                <FaChevronLeft />
+              </button>
+              <button 
+                className="slider-nav next" 
+                onClick={() => nextSlide(subCatKey)}
+                aria-label="Next slide"
+              >
+                <FaChevronRight />
+              </button>
+            </>
+          )}
+          
+          <div className="events-slider">
+            <div 
+              className="events-track"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {Array.from({ length: totalSlides }, (_, slideIndex) => (
+                <div key={slideIndex} className="slide">
+                  <div className="events-grid">
+                    {categoryEvents
+                      .slice(slideIndex * eventsPerSlide, (slideIndex + 1) * eventsPerSlide)
+                      .map(event => renderEventCard(event))
+                    }
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {totalSlides > 1 && (
+            <div className="slider-dots">
+              {Array.from({ length: totalSlides }, (_, index) => (
+                <button
+                  key={index}
+                  className={`dot ${index === currentSlide ? 'active' : ''}`}
+                  onClick={() => setCurrentSlides(prev => ({ ...prev, [subCatKey]: index }))}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // Render category section
+  const renderCategorySection = (category) => {
+    const categoryTitle = category === 'technical' ? 'Technical Events' : 'Non-Technical Events';
+    const categoryIcon = category === 'technical' ? FaCode : FaGamepad;
+    const categoryEvents = getFilteredEvents().filter(e => e.category === category);
+    
+    if (categoryEvents.length === 0) return null;
+
+    return (
+      <div className="category-section">
+        <div className="category-header">
+          <div className="category-badge">
+            {React.createElement(categoryIcon, { className: "badge-icon" })}
+            <span className="badge-text">{categoryTitle}</span>
+          </div>
+          <h2 className="category-title">{categoryTitle}</h2>
+          <p className="category-description">
+            {category === 'technical' 
+              ? 'Showcase your programming, design, and technical skills'
+              : 'Fun competitions, gaming tournaments, and creative challenges'
+            }
+          </p>
+        </div>
+        
+        <div className="subcategories">
+          {Object.entries(subCategories[category]).map(([subCatKey, subCat]) =>
+            renderSubcategorySection(category, subCat, subCatKey)
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <section id="events" className="events-section" ref={sectionRef}>
+    <section id="events" className="events-section">
       <div className="events-container">
         
         {/* Section Header */}
-        <div className="events-header scroll-animate" ref={headerRef}>
+        <div className="events-header">
           <div className="section-badge">
             <FaTrophy className="badge-icon" />
             <span className="badge-text">HASH Events</span>
           </div>
-          <h2 className="section-title3">
-            Explore <span className="gradient-text">Interactive Events</span>
-          </h2>
+          <h1 className="section-title3">
+            Explore <span className="gradient-text">Our Events</span>
+          </h1>
           <p className="section-subtitle3">
-            click nodes to expand and discover
+            Compete, learn, and showcase your skills across various domains
           </p>
         </div>
 
@@ -708,7 +618,7 @@ const Events = () => {
             <div className="search-results">
               <span className="search-info">
                 {findEventByQuery(searchQuery) 
-                  ? 'Found matching event! Expanding tree...' 
+                  ? `Found "${findEventByQuery(searchQuery).title}"! Scrolling to event...` 
                   : 'No events found matching your search.'
                 }
               </span>
@@ -716,10 +626,20 @@ const Events = () => {
           )}
         </div>
 
-        {/* Interactive Tree */}
-        <div className="events-tree" ref={treeRef}>
-          {renderNode('root')}
+        {/* Events Categories */}
+        <div className="events-categories">
+          {renderCategorySection('technical')}
+          {renderCategorySection('non-technical')}
         </div>
+
+        {/* No Events Found */}
+        {getFilteredEvents().length === 0 && (
+          <div className="no-events">
+            <FaTrophy className="no-events-icon" />
+            <h3>No events found</h3>
+            <p>Try adjusting your search query</p>
+          </div>
+        )}
 
       </div>
 
@@ -727,22 +647,14 @@ const Events = () => {
       {selectedEvent && (
         <div className="event-modal-overlay" onClick={closeEventDetails}>
           <div className="event-modal" onClick={(e) => e.stopPropagation()}>
+            {/* Close Button - Only in the modal */}
             <button 
               className="modal-close"
               onClick={closeEventDetails}
-              aria-label="Close modal"
+              aria-label="Close event details (Press Escape key)"
+              title="Close (Esc)"
             >
-              <FaTimes className="close-icon" />
-            </button>
-            
-            {/* Mobile Close Button */}
-            <button 
-              className="mobile-close-btn"
-              onClick={closeEventDetails}
-              aria-label="Close modal"
-            >
-              <FaTimes className="close-icon" />
-              <span>Close</span>
+              <FaTimes />
             </button>
             
             <div className="modal-content">

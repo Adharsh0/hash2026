@@ -62,12 +62,12 @@
 
 /* Main Section */
 .gallery-section {
-  margin-top: -200px;
+  margin-top: 300px;
   padding: 8rem 2rem;
-  
   position: relative;
   overflow: hidden;
   min-height: 100vh;
+  background-color: transparent;
 }
 
 .gallery-container {

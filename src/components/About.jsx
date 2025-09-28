@@ -59,9 +59,8 @@ const About = () => {
         <div className="about-content" ref={contentRef}>
           <div className="content-text">
             <p className="main-description">
-            <p className="section-subtitle">
+            <p className="section-subtitle3">
             What is HASH?
-            
           </p>
               HASH is the annual technical fest of the Department of Computer Science & Engineering 
               at Mar Baselios College of Engineering & Technology. A platform for students to showcase 
@@ -93,23 +92,23 @@ const About = () => {
         <div className="stats-section" ref={statsRef}>
           <div className="stat-item">
             <FaUsers className="stat-icon" />
-            <h3 className="stat-number">500+</h3>
+            <h3 className="stat-number">100+</h3>
             <p className="stat-label">Participants</p>
           </div>
           <div className="stat-item">
             <FaMicrochip className="stat-icon" />
-            <h3 className="stat-number">20+</h3>
-            <p className="stat-label">Technical Events</p>
+            <h3 className="stat-number">1 7+</h3>
+            <p className="stat-label">Events</p>
           </div>
           <div className="stat-item">
             <FaGlobe className="stat-icon" />
-            <h3 className="stat-number">50+</h3>
+            <h3 className="stat-number">5+</h3>
             <p className="stat-label">Colleges</p>
           </div>
           <div className="stat-item">
             <FaRocket className="stat-icon" />
-            <h3 className="stat-number">3</h3>
-            <p className="stat-label">Days</p>
+            <h3 className="stat-number">1</h3>
+            <p className="stat-label">Day</p>
           </div>
         </div>
 
