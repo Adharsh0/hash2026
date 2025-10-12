@@ -1613,3 +1613,75 @@ html {
   background: rgba(100, 181, 246, 0.3);
   color: #ffffff;
 }
+.event-card-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.event-card-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #64b5f6;
+  transform: scale(1.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.event-card-close:active {
+  transform: scale(1.05);
+}
+
+.event-card-close:focus-visible {
+  outline: 2px solid #64b5f6;
+  outline-offset: 2px;
+}
+.event-card-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.event-card-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #64b5f6;
+  transform: scale(1.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.event-card-close:active {
+  transform: scale(1.05);
+}
+
+.event-card-close:focus-visible {
+  outline: 2px solid #64b5f6;
+  outline-offset: 2px;
+}

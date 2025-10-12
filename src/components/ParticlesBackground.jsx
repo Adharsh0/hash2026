@@ -1,7 +1,7 @@
 import React from 'react';
 import './ParticlesBackground.css';
 
-const ParticleBackground = ({ intensity = 50, color = 'rgba(100, 181, 246, 0.6)' }) => {
+const ParticlesBackground = ({ intensity = 50, color = 'rgba(100, 181, 246, 0.6)' }) => {
   return (
     <div className="particle-background">
       {[...Array(intensity)].map((_, i) => (

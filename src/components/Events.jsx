@@ -415,8 +415,8 @@ const Events = () => {
     }));
   };
 
-  // Render event card
-  const renderEventCard = (event) => {
+   // Render event card
+   const renderEventCard = (event) => {
     const isSearchMatch = searchQuery && 
       (event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
        event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||

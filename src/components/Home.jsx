@@ -72,7 +72,7 @@ const Home = () => {
               
               <div className="main-image-container">
                 <img 
-                  src="home.png"
+                  src="glasslogo.png"
                   alt="HASH Tech Fest 2026"
                   className="main-image"
                 />
