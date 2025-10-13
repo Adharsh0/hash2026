@@ -74,7 +74,6 @@ const Gallery = () => {
       year: '2025',
       description: 'Team formations and strategic bidding during IPL auction'
     }
-    
   ];
 
   useEffect(() => {
@@ -143,7 +142,17 @@ const Gallery = () => {
       closeImageModal();
     }
   };
+
   const getImagePosition = (index, total) => {
+    if (!isExpanded) {
+      return { 
+        left: '50%',
+        top: '50%', 
+        transform: 'translate(-50%, -50%) scale(0.1)', 
+        opacity: 0 
+      };
+    }
+    
     const getRadius = () => {
       const width = window.innerWidth;
       if (width <= 480) return 140;
@@ -152,29 +161,6 @@ const Gallery = () => {
       return 280;
     };
     
-    if (!isExpanded) {
-      // Shuffle/scattered positions
-      const shufflePositions = [
-        { x: -120, y: -80, rotate: -15 },
-        { x: 100, y: -100, rotate: 12 },
-        { x: -150, y: 60, rotate: 8 },
-        { x: 80, y: 90, rotate: -10 },
-        { x: 0, y: -120, rotate: 5 },
-        { x: 140, y: 20, rotate: -8 },
-        { x: -90, y: 110, rotate: 14 },
-        { x: 30, y: 130, rotate: -12 }
-      ];
-      
-      const pos = shufflePositions[index % shufflePositions.length];
-      return {
-        left: `calc(50% + ${pos.x}px)`,
-        top: `calc(50% + ${pos.y}px)`,
-        transform: `translate(-50%, -50%) rotate(${pos.rotate}deg) scale(1)`,
-        opacity: 1
-      };
-    }
-    
-    // Circle arrangement when expanded
     const angle = (360 / total) * index - 90;
     const radians = (angle * Math.PI) / 180;
     const radius = getRadius();
@@ -184,10 +170,11 @@ const Gallery = () => {
     return {
       left: `calc(50% + ${x}px)`,
       top: `calc(50% + ${y}px)`,
-      transform: 'translate(-50%, -50%) rotate(0deg) scale(1)',
+      transform: 'translate(-50%, -50%) scale(1)',
       opacity: 1
     };
   };
+
   return (
     <section id="gallery" className="gallery-section" ref={sectionRef}>
       <div className="gallery-container">
@@ -198,10 +185,10 @@ const Gallery = () => {
             <FaCamera />
             HASH Gallery
           </div>
-          <h2 className="section-title3">
+          <h2 className="section-title2">
             Relive the <span className="gradient-text">Epic Moments</span>
           </h2>
-          <p className="section-subtitle3">
+          <p className="section-subtitle2">
             Journey through the years of innovation and excellence
           </p>
         </div>
@@ -226,6 +213,7 @@ const Gallery = () => {
               <div className="circle-content">
                 <div className="click-me-title">
                   <FaHandPointer className="click-icon" />
+                  <span>Click Me</span>
                 </div>
               </div>
               <div className="circle-glow"></div>
